@@ -1,0 +1,22 @@
+{
+  "channels": [
+    {
+      "type": "email",
+      "from_address": "DoNotReply@81bc4d3f-8729-4379-884b-64c08d452238.azurecomm.net",
+      "to_addresses": [
+        {
+          "identifier": "merry.arun@gmail.com",
+          "name": "Arun MR"
+        },
+        {
+          "identifier": "strider.galaxies@gmail.com",
+          "name": "Strider"
+        }
+      ],
+      "subject": "A test message",
+      "message_text": "Hello World",
+      "message_html": "<h1>Hello World</h1>"
+
+    }
+  ]
+}
