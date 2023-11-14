@@ -1,45 +1,34 @@
 import os
 
-from azure.communication.email import EmailClient
 from app.email_sender_interface import EmailSenderInterface
 
-class AzureEmailSender(EmailSenderInterface):
+class SMTPEmailSender(EmailSenderInterface):
 
-    CONNECTION_STRING = os.environ.get("AZR_EMAIL_CONNECTION_STRING")
-
-
+    ''' 
+        TODO
+        - Implement email sending
+    '''
     def send_email(self, request_dict):
-
-        if self.CONNECTION_STRING is None:
-            raise ValueError("Required environment variable AZR_EMAIL_CONNECTION_STRING is not present")
-
-        client = EmailClient.from_connection_string(self.CONNECTION_STRING)
-
-        print('<--> Email client created ')
-        message = self.get_azure_request(request_dict)
-        print('Request in azure format')
-        print(message)
-        poller = client.begin_send(message)
-        print('<--> Email sending initiated')
-        result = poller.result()
-        print('<--> Result ')
-        print(result)
+        pass
 
 
-    def get_azure_request(self, request_dict):
+    # TODO: Implement as per SMTP request format. Refer /events/request.json for request format
+    def get_smtp_request(self, request_dict):
         channels = request_dict["channels"]
-        az_req = {}
-
+        req = {}
+        
+        '''
         for channel in channels:
             channel_type = channel["type"]
             if channel_type == "email":
                 az_req["senderAddress"] = channel["from_address"]
                 az_req["content"] = self.get_content(channel)
                 az_req["recipients"] = self.get_recipients(channel)
+        '''
 
         return az_req
 
-
+'''
     def get_content(self, channel):
         content = {
                     "subject": channel["subject"],
@@ -62,7 +51,7 @@ class AzureEmailSender(EmailSenderInterface):
             recipients_list.append(recipient_address)
                     
         return recipients_dict
-                
+ '''               
 
 
 
