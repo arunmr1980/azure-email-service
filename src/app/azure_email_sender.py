@@ -1,12 +1,21 @@
+
+import os
+
 from azure.communication.email import EmailClient
 from app.email_sender_interface import EmailSenderInterface
 
 class AzureEmailSender(EmailSenderInterface):
 
-    connection_string = "endpoint=https://hi-communication-service-1.unitedstates.communication.azure.com/;accesskey=mCkx5HCDawpyzB+f/OKn0YRWyKDxWp6xnnaKlVmjbeqR8yPVhaKxnl4rxE0qQK2X3b8dpHhsk7MSDaUL1T1czg==i"
+    #CONNECTION_STRING = "endpoint=https://hi-communication-service-1.unitedstates.communication.azure.com/;accesskey=mCkx5HCDawpyzB+f/OKn0YRWyKDxWp6xnnaKlVmjbeqR8yPVhaKxnl4rxE0qQK2X3b8dpHhsk7MSDaUL1T1czg==i"
+    CONNECTION_STRING = os.environ.get("AZR_EMAIL_CONNECTION_STRING")
+
 
     def send_email(self, request_dict):
-        client = EmailClient.from_connection_string(self.connection_string)
+
+        if self.CONNECTION_STRING is None:
+            raise ValueError("Required environment variable AZR_EMAIL_CONNECTION_STRING is not present")
+
+        client = EmailClient.from_connection_string(self.CONNECTION_STRING)
 
         print('<--> Email client created ')
         message = self.get_azure_request(request_dict)
@@ -20,7 +29,7 @@ class AzureEmailSender(EmailSenderInterface):
 
 
     def send_email_raw(self, request_dict):
-        client = EmailClient.from_connection_string(self.connection_string)
+        client = EmailClient.from_connection_string(self.CONNECTION_STRING)
 
         print('<--> Email client created ')
         message = {
